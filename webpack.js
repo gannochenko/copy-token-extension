@@ -4,27 +4,32 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackInjector = require('html-webpack-injector');
 const Dotenv = require('dotenv-webpack');
-const TerserPlugin = require('terser-webpack-plugin');
+// const TerserPlugin = require('terser-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = (env, argv) => {
     const pEnv = process.env;
     const development =
         argv.mode === 'development' || pEnv.NODE_ENV === 'development';
 
-    const sourceFolder = path.join(__dirname, 'src/common');
+    const sourceFolder = path.join(__dirname, 'src');
     const buildFolder = path.join(__dirname, 'build');
-    const publicFolder = development
-        ? buildFolder
-        : path.join(buildFolder, 'public');
+    const publicFolder = path.join(__dirname, 'public');
 
     return {
-        entry: [
-            './src/index',
-        ],
+        entry: {
+            'index': path.join(sourceFolder, 'index'),
+            'background': path.join(sourceFolder, 'background'),
+        },
+        output: {
+            path: buildFolder,
+            // publicPath: '/',
+            filename: '[name].js',
+        },
         target: 'web',
         mode: development ? 'development' : 'production',
         resolve: {
-            extensions: ['.js', '.jsx', '.ts', '.tsx'],
+            extensions: [".ts", ".tsx", ".js", ".jsx"],
             symlinks: false,
         },
         devtool: development ? 'source-map' : false,
@@ -87,57 +92,39 @@ module.exports = (env, argv) => {
         //     },
         module: {
             rules: [
-                {
-                    test: /\.(j|t)sx?$/,
-                    enforce: 'pre',
-                    use: [
-                        {
-                            options: {
-                                formatter: require.resolve(
-                                    'react-dev-utils/eslintFormatter',
-                                ),
-                                eslintPath: require.resolve('eslint'),
-                                emitWarning: true,
-                            },
-                            loader: require.resolve('eslint-loader'),
-                        },
-                    ],
-                    include: sourceFolder,
-                },
                 { test: /\.([cm]?ts|tsx)$/, loader: "ts-loader" },
-                {
-                    test: /\.jsx?$/,
-                    use: [
-                        {
-                            loader: 'babel-loader',
-                            options: {
-                                presets: [
-                                    '@babel/react',
-                                    [
-                                        '@babel/env',
-                                        {
-                                            modules: false,
-                                            targets: {
-                                                browsers: ['last 2 versions'],
-                                            },
-                                        },
-                                    ],
-                                ],
-                                plugins: [
-                                    [
-                                        '@babel/plugin-proposal-decorators',
-                                        { legacy: true },
-                                    ],
-                                    '@babel/plugin-proposal-object-rest-spread',
-                                    '@babel/plugin-proposal-class-properties',
-                                    'babel-plugin-styled-components',
-                                ],
-                                cacheDirectory: true,
-                            },
-                        },
-                    ],
-                    include: [path.join(__dirname, 'src/client'), sourceFolder],
-                },
+                // {
+                //     test: /\.jsx?$/,
+                //     use: [
+                //         {
+                //             loader: 'babel-loader',
+                //             options: {
+                //                 presets: [
+                //                     '@babel/react',
+                //                     [
+                //                         '@babel/env',
+                //                         {
+                //                             modules: false,
+                //                             targets: {
+                //                                 browsers: ['last 2 versions'],
+                //                             },
+                //                         },
+                //                     ],
+                //                 ],
+                //                 plugins: [
+                //                     [
+                //                         '@babel/plugin-proposal-decorators',
+                //                         { legacy: true },
+                //                     ],
+                //                     '@babel/plugin-proposal-object-rest-spread',
+                //                     '@babel/plugin-proposal-class-properties',
+                //                     'babel-plugin-styled-components',
+                //                 ],
+                //                 cacheDirectory: true,
+                //             },
+                //         },
+                //     ]
+                // },
                 {
                     test: /\.(txt)$/,
                     use: 'raw-loader',
@@ -190,21 +177,23 @@ module.exports = (env, argv) => {
             ],
         },
         plugins: [
+            new ESLintPlugin(),
             new webpack.NoEmitOnErrorsPlugin(),
             new webpack.DefinePlugin({
                 __DEV__: development,
             }),
-            new CopyPlugin({
-                patterns: [
-                    {
-                        from: path.join(__dirname, 'public'),
-                        to: publicFolder,
-                    },
-                ],
-            }),
+            // new CopyPlugin({
+            //     patterns: [
+            //         {
+            //             from: publicFolder,
+            //             to: buildFolder,
+            //         },
+            //     ],
+            // }),
             new HtmlWebpackPlugin({
-                template: './src/index.html',
-                filename: path.join(publicFolder, 'index.html'),
+                template: './public/popup.html',
+                filename: path.join(buildFolder, 'popup.html'),
+                excludeChunks: ['background'],
                 inject: true,
                 minify: {
                     removeComments: true,
@@ -224,11 +213,5 @@ module.exports = (env, argv) => {
                 systemvars: false,
             }),
         ].filter(x => !!x),
-        output: {
-            path: publicFolder,
-            publicPath: '/',
-            filename: '[name].[chunkhash].js',
-            chunkFilename: '[name].[chunkhash].chunk.js',
-        },
     };
 };
