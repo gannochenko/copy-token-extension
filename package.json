@@ -1,0 +1,35 @@
+{
+    "scripts": {
+        "dev": "rm -rf ./build && webpack-dev-server --config webpack.js --mode development",
+        "build": "rm -rf ./build && NODE_ENV=production webpack --config webpack.js --mode production --progress",
+        "lint": "eslint src --ext .js,.ts,.jsx,.tsx",
+        "lint:fix": "eslint src --fix --ext .js,.ts,.jsx,.tsx"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged"
+        }
+    },
+    "private": true,
+    "devDependencies": {
+        "@types/react": "^18.0.21",
+        "@types/react-dom": "^18.0.6",
+        "copy-webpack-plugin": "^11.0.0",
+        "dotenv-webpack": "^8.0.1",
+        "eslint": "^8.25.0",
+        "eslint-loader": "^4.0.2",
+        "html-loader": "^4.2.0",
+        "html-webpack-injector": "^1.1.4",
+        "html-webpack-plugin": "^5.5.0",
+        "react-dev-utils": "^12.0.1",
+        "terser-webpack-plugin": "^5.3.6",
+        "ts-loader": "^9.4.1",
+        "typescript": "^4.8.4",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    }
+}
