@@ -23,7 +23,7 @@ module.exports = (env, argv) => {
         },
         output: {
             path: buildFolder,
-            // publicPath: '/',
+            publicPath: '/',
             filename: '[name].js',
         },
         target: 'web',
@@ -182,14 +182,21 @@ module.exports = (env, argv) => {
             new webpack.DefinePlugin({
                 __DEV__: development,
             }),
-            // new CopyPlugin({
-            //     patterns: [
-            //         {
-            //             from: publicFolder,
-            //             to: buildFolder,
-            //         },
-            //     ],
-            // }),
+            new CopyPlugin({
+                patterns: [
+                    {
+                        from: publicFolder,
+                        to: buildFolder,
+                        filter: async (resourcePath) => {
+                            if (resourcePath.includes("popup.html")) {
+                                return false;
+                            }
+
+                            return true;
+                        },
+                    },
+                ],
+            }),
             new HtmlWebpackPlugin({
                 template: './public/popup.html',
                 filename: path.join(buildFolder, 'popup.html'),
