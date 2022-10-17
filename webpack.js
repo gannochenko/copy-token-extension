@@ -20,6 +20,7 @@ module.exports = (env, argv) => {
         entry: {
             'index': path.join(sourceFolder, 'index'),
             'background': path.join(sourceFolder, 'background'),
+            'content': path.join(sourceFolder, 'content'),
         },
         output: {
             path: buildFolder,

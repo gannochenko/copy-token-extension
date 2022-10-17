@@ -1,7 +1,8 @@
 {
     "scripts": {
+        "dev": "yarn build:watch",
         "build": "rm -rf ./build && NODE_ENV=production webpack --config webpack.js --mode production --progress",
-        "build:watch": "nodemon --exec \"yarn build\" --watch src --watch public -e js,tx,tsx,jsx,html,json,css,scss",
+        "build:watch": "nodemon --exec \"yarn build\" --watch src --watch public -e js,ts,tsx,jsx,html,json,css,scss",
         "lint": "eslint src --ext .js,.ts,.jsx,.tsx",
         "lint:fix": "eslint src --fix --ext .js,.ts,.jsx,.tsx"
     },
@@ -26,7 +27,10 @@
         "html-loader": "^4.2.0",
         "html-webpack-injector": "^1.1.4",
         "html-webpack-plugin": "^5.5.0",
+        "husky": "^8.0.1",
         "nodemon": "^2.0.20",
+        "prettier": "^2.7.1",
+        "pretty-quick": "^3.1.3",
         "react-dev-utils": "^12.0.1",
         "style-loader": "^3.3.1",
         "terser-webpack-plugin": "^5.3.6",
