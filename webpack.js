@@ -18,9 +18,9 @@ module.exports = (env, argv) => {
 
     return {
         entry: {
-            'index': path.join(sourceFolder, 'index'),
-            'background': path.join(sourceFolder, 'background'),
-            'content': path.join(sourceFolder, 'content'),
+            popup: path.join(sourceFolder, 'popup'),
+            background: path.join(sourceFolder, 'background'),
+            content: path.join(sourceFolder, 'content'),
         },
         output: {
             path: buildFolder,
@@ -30,7 +30,7 @@ module.exports = (env, argv) => {
         target: 'web',
         mode: development ? 'development' : 'production',
         resolve: {
-            extensions: [".ts", ".tsx", ".js", ".jsx"],
+            extensions: ['.ts', '.tsx', '.js', '.jsx'],
             symlinks: false,
         },
         devtool: development ? 'source-map' : false,
@@ -93,42 +93,10 @@ module.exports = (env, argv) => {
         //     },
         module: {
             rules: [
-                { test: /\.([cm]?ts|tsx)$/, loader: "ts-loader" },
-                // {
-                //     test: /\.jsx?$/,
-                //     use: [
-                //         {
-                //             loader: 'babel-loader',
-                //             options: {
-                //                 presets: [
-                //                     '@babel/react',
-                //                     [
-                //                         '@babel/env',
-                //                         {
-                //                             modules: false,
-                //                             targets: {
-                //                                 browsers: ['last 2 versions'],
-                //                             },
-                //                         },
-                //                     ],
-                //                 ],
-                //                 plugins: [
-                //                     [
-                //                         '@babel/plugin-proposal-decorators',
-                //                         { legacy: true },
-                //                     ],
-                //                     '@babel/plugin-proposal-object-rest-spread',
-                //                     '@babel/plugin-proposal-class-properties',
-                //                     'babel-plugin-styled-components',
-                //                 ],
-                //                 cacheDirectory: true,
-                //             },
-                //         },
-                //     ]
-                // },
+                { test: /\.([cm]?ts|tsx)$/, loader: 'ts-loader' },
                 {
                     test: /\.css$/i,
-                    use: ["style-loader", "css-loader"],
+                    use: ['style-loader', 'css-loader'],
                 },
                 {
                     test: /\.(txt)$/,
@@ -193,7 +161,7 @@ module.exports = (env, argv) => {
                         from: publicFolder,
                         to: buildFolder,
                         filter: async (resourcePath) => {
-                            if (resourcePath.includes("popup.html")) {
+                            if (resourcePath.includes('popup.html')) {
                                 return false;
                             }
 
@@ -224,6 +192,6 @@ module.exports = (env, argv) => {
             new Dotenv({
                 systemvars: false,
             }),
-        ].filter(x => !!x),
+        ].filter((x) => !!x),
     };
 };
