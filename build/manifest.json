@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Copy token to clipboard",
+  "description": "Copy token to clipboard",
+  "version": "1.0",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ]
+}

@@ -1,0 +1,1 @@
+(()=>{"use strict";const e={getToken:e=>{let t="";const n=window.localStorage.getItem("token");n&&(t=n.trim().replace(/^Bearer /,"")),e({token:t})}};console.log("Event listeners added"),chrome.runtime.onMessage.addListener((function(t,n,o){n.tab||t.name in e&&e[t.name](o)}))})();
