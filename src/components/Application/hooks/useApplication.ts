@@ -3,7 +3,7 @@ import copy from 'clipboard-copy';
 
 import { MESSAGE_GET_TOKEN } from '../../../messages/names';
 import { getTabId } from '../../../util/tab';
-import { sendMessage } from '../../../messages/sendMessage';
+import { sendMessage } from '../../../util/sendMessage';
 import { GetTokenMessageResponseType } from '../../../messages/type';
 
 export const useApplication = () => {
