@@ -6,18 +6,12 @@ import { ApplicationPropsType } from './type';
 import { useApplication } from './hooks/useApplication';
 
 export const Application: FC<ApplicationPropsType> = () => {
-    const { copyTokenProps, showSent } = useApplication();
+    const { copyTokenProps } = useApplication();
 
     return (
         <Box padding={2}>
             <Button variant="contained" {...copyTokenProps}>
-                {
-                    showSent
-                    ?
-                    "Sent!"
-                    :
-                    "Copy token"
-                }
+                Copy token
             </Button>
         </Box>
     );
